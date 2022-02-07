@@ -55,17 +55,34 @@ class Basket(models.Model):
         verbose_name_plural = 'baskets'
 
 
-# class Order(models.Model):
-#     goods = models.ManyToManyField('webapp.Good', related_name='orders', verbose_name='Orders')
-#     username = models.CharField(max_length=20, null=False, blank=False)
-#     phone = models.IntegerField(null=False, blank=False)
-#     address = models.TextField(max_length=50, null=False, blank=False)
-#     created_at = models.DateTimeField(auto_now_add=True)
-#
-#     def __str__(self):
-#         return f"{self.username}"
-#
-#     class Meta:
-#         db_table = 'Order'
-#         verbose_name = 'order'
-#         verbose_name_plural = 'orders'
+class Order(models.Model):
+    name = models.CharField(max_length=10, verbose_name='Name')
+    phone = models.CharField(max_length=10, verbose_name='Phone')
+    address = models.CharField(max_length=50, verbose_name='Address')
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Created at')
+    goods = models.ManyToManyField('webapp.Good', related_name='orders', verbose_name='Goods',
+                                      through='webapp.OrderGood', through_fields=['order', 'good'])
+
+    def __str__(self):
+        return f'{self.name} : {self.phone}'
+
+    class Meta:
+        db_table = 'Order'
+        verbose_name = 'order'
+        verbose_name_plural = 'orders'
+
+
+class OrderGood(models.Model):
+    good = models.ForeignKey('webapp.Good', on_delete=models.CASCADE,
+                                verbose_name='Good', related_name='order_goods')
+    order = models.ForeignKey('webapp.Order', on_delete=models.CASCADE,
+                              verbose_name='Order', related_name='order_goods')
+    remainder = models.PositiveIntegerField(verbose_name='Quantity')
+
+    def __str__(self):
+        return f'{self.good.description} - {self.order.name}'
+
+    class Meta:
+        db_table = 'OrderGood'
+        verbose_name = 'Good in order'
+        verbose_name_plural = 'Goods in order'

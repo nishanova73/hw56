@@ -15,6 +15,9 @@
             <a href='{{ good.get_absolute_url }}'>Show the good🔓</a>
             <a href='{% url "good_update" good.pk %}'>Edit the good🌯</a>
             <a href='{% url "good_delete" good.pk %}'>Delete the good✂️</a>
+            <form method="GET" action="{% url 'basket_view' good.pk %}" target="_blank">
+                <button>Add to basket</button>
+            </form>
         </p>
     {% endfor %}
 

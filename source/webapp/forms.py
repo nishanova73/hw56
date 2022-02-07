@@ -1,7 +1,7 @@
 from django import forms
 from django.core.exceptions import ValidationError
 from django.forms import widgets
-from webapp.models import Good, Category
+from webapp.models import Good, Category, Basket, Order, OrderGood
 
 
 class GoodForm(forms.ModelForm):
@@ -40,7 +40,12 @@ class GoodDeleteForm(forms.ModelForm):
         return self.cleaned_data.get("description")
 
 
-# class OrderForm(forms.ModelForm):
-#     class Meta:
-#         model = Order
-#         fields = ['username', 'phone', 'address']
+class BasketAddForm(forms.ModelForm):
+    class Meta:
+        model = Basket
+        fields = ['remainder']
+
+class OrderForm(forms.ModelForm):
+    class Meta:
+        model = Order
+        exclude = ['goods']

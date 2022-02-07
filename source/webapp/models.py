@@ -46,6 +46,13 @@ class Basket(models.Model):
                                  )
     remainder = models.PositiveIntegerField( default=1, validators=[MinValueValidator(1)])
 
+    def get_basket_total(cls, ids=None):
+        basket_goods = cls.get_with_total()
+        if ids is not None:
+            basket_goods = basket_goods.filter(pk__in=ids)
+        total = basket_goods.aggregate(basket_total=Sum('total'))
+        return total['basket_goods']
+
     def __str__(self):
         return f"{self.remainder} * {self.good}"
 

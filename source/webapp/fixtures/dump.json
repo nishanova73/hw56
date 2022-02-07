@@ -1,0 +1,133 @@
+[
+{
+    "model": "webapp.good",
+    "pk": 1,
+    "fields": {
+        "description": "huytVHJHHIFV OIZHLDF",
+        "detailed_description": "fsvsdfvsioryuvkleryovjelkjfjopvssregbadzf",
+        "category": 1,
+        "remainder": 45,
+        "price": "23.00"
+    }
+},
+{
+    "model": "webapp.good",
+    "pk": 2,
+    "fields": {
+        "description": "huytVHJHHIFV OIZHLDF",
+        "detailed_description": "fsvsdfvsioryuvkleryovjelkjfjopvs",
+        "category": 1,
+        "remainder": 45,
+        "price": "23.00"
+    }
+},
+{
+    "model": "webapp.good",
+    "pk": 3,
+    "fields": {
+        "description": "aiuer7f8jghsdfhjzhkvhklsdzf",
+        "detailed_description": "ƒµnvuydzyfhjvhizdfjklbv,zdf",
+        "category": 4,
+        "remainder": 4,
+        "price": "7.77"
+    }
+},
+{
+    "model": "webapp.good",
+    "pk": 4,
+    "fields": {
+        "description": "kdfg78vyafzhkivizdfo",
+        "detailed_description": "87436yitrgfhakjshzhfdghlkdfz",
+        "category": 2,
+        "remainder": 5,
+        "price": "4.99"
+    }
+},
+{
+    "model": "webapp.good",
+    "pk": 5,
+    "fields": {
+        "description": "fKVU8oyEIDZHFKbhzdfstrhrsdtharst",
+        "detailed_description": "fem,znbvuyzdfbhzdjfky8goHLJS<J",
+        "category": 5,
+        "remainder": 6,
+        "price": "34.90"
+    }
+},
+{
+    "model": "webapp.good",
+    "pk": 6,
+    "fields": {
+        "description": "q4u3ter7yfabjkzrsdj,fgs",
+        "detailed_description": "srthbsrgxjnfjxfhgnfxgvn",
+        "category": 3,
+        "remainder": 6,
+        "price": "5.55"
+    }
+},
+{
+    "model": "webapp.good",
+    "pk": 7,
+    "fields": {
+        "description": "sjeruyfbjakdgfjkvjkhased",
+        "detailed_description": "mhdfcuagdsmnmfhiuatsdggfjc,w",
+        "category": 2,
+        "remainder": 5,
+        "price": "3.33"
+    }
+},
+{
+    "model": "webapp.category",
+    "pk": 1,
+    "fields": {
+        "text": "other"
+    }
+},
+{
+    "model": "webapp.category",
+    "pk": 2,
+    "fields": {
+        "text": "fruits"
+    }
+},
+{
+    "model": "webapp.category",
+    "pk": 3,
+    "fields": {
+        "text": "vegetables"
+    }
+},
+{
+    "model": "webapp.category",
+    "pk": 4,
+    "fields": {
+        "text": "ice-cream"
+    }
+},
+{
+    "model": "webapp.category",
+    "pk": 5,
+    "fields": {
+        "text": "milk"
+    }
+},
+{
+    "model": "webapp.order",
+    "pk": 1,
+    "fields": {
+        "name": "chinara",
+        "phone": "9475986348",
+        "address": "lenin",
+        "created_at": "2022-02-07T07:25:46.649Z"
+    }
+},
+{
+    "model": "webapp.ordergood",
+    "pk": 1,
+    "fields": {
+        "good": 4,
+        "order": 1,
+        "remainder": 3
+    }
+}
+]

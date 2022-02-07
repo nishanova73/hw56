@@ -4,44 +4,20 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse, reverse_lazy
 from django.views.generic import FormView, ListView, DetailView, CreateView, UpdateView, DeleteView
 
-from webapp.forms import GoodForm, SearchForm, GoodDeleteForm
+from webapp.forms import GoodForm, GoodDeleteForm
 from webapp.models import Good
 
 class IndexView(ListView):
     model = Good
     context_object_name = "goods"
     template_name = "goods/index.html"
+    ordering = ['category', 'description']
+    search_fields = ['description__icontains']
     paginate_by = 5
     paginate_orphans = 0
 
-    def get(self, request, *args, **kwargs):
-        self.form = self.get_form()
-        self.search_value = self.get_search_value()
-        return super().get(request, *args, **kwargs)
-
-
     def get_queryset(self):
-        queryset = super().get_queryset()
-        if self.search_value:
-            print(self.search_value)
-            query = Q(description__icontains=self.search_value) | Q(detailed_description__icontains=self.search_value)
-            queryset = queryset.filter(query)
-        return queryset.order_by("-description").reverse().order_by("category").reverse()
-
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(object_list=object_list, **kwargs)
-        context['form'] = SearchForm()
-        if self.search_value:
-            context['form'] = SearchForm(initial={"search": self.search_value})
-            context['search'] = self.search_value
-        return context
-
-    def get_form(self):
-        return SearchForm(self.request.GET)
-
-    def get_search_value(self):
-        if self.form.is_valid():
-            return self.form.cleaned_data.get("search")
+        return super().get_queryset().filter(remainder__gt=0)
 
 
 class CreateGoodView(CreateView):

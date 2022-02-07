@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <form method="POST">
+    {% csrf_token %}
+        <h2>Enter the good's description {{ good.description }}</h2>
+        {% include 'partial/form.html' with button_text="Delete" %}
+    </form>
+</br>
+    <form method="GET" action="{% url 'good_view' good.pk %}" target="_blank">
+   <button>No</button>
+  </form>
+{% endblock %}

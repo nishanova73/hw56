@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Goods page{% endblock %}
+{% block content %}
+<h1>Goods</h1>
+</br>
+</br>
+    {% include 'partial/simple_search.html' %}
+     {% if is_paginated %}
+         {% include 'partial/pagination.html' %}
+     {% endif %}
+
+    {% for good in goods %}
+        <h3>{{ good.description }}</h3>
+        <p>
+            <a href='{{ good.get_absolute_url }}'>Show the good🔓</a>
+            <a href='{% url "good_update" good.pk %}'>Edit the good🌯</a>
+            <a href='{% url "good_delete" good.pk %}'>Delete the good✂️</a>
+            <form method="GET" action="{% url 'basket_view' good.pk %}" target="_blank">
+                <button>Add to basket</button>
+            </form>
+        </p>
+    {% endfor %}
+
+    {% if is_paginated %}
+            {% include 'partial/pagination.html' %}
+    {% endif %}
+
+{% endblock %}

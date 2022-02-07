@@ -22,7 +22,7 @@ class OrderAdmin(admin.ModelAdmin):
     list_display = ('pk', 'name', 'phone', 'created_at')
     list_display_links = ('pk', 'name')
     ordering = ('-created_at',)
-    inlines = (OrdergoodAdmin,)
+    inlines = (OrderGoodAdmin,)
 
 
 admin.site.register(Good, GoodAdmin)

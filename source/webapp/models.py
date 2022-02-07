@@ -44,7 +44,7 @@ class Basket(models.Model):
                                  related_name="good",
                                  verbose_name="Good",
                                  )
-    remainder = models.PositiveIntegerField(validators=[MinValueValidator(0), MaxValueValidator(100)])
+    remainder = models.PositiveIntegerField( default=1, validators=[MinValueValidator(1)])
 
     def __str__(self):
         return f"{self.remainder} * {self.good}"

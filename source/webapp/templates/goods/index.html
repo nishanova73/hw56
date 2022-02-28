@@ -12,12 +12,14 @@
     {% for good in goods %}
         <h3>{{ good.description }}</h3>
         <p>
-            <a href='{{ good.get_absolute_url }}'>Show the good🔓</a>
-            <a href='{% url "good_update" good.pk %}'>Edit the good🌯</a>
-            <a href='{% url "good_delete" good.pk %}'>Delete the good✂️</a>
-            <form method="GET" action="{% url 'basket_view' good.pk %}" target="_blank">
-                <button>Add to basket</button>
-            </form>
+            <a href='{% url "webapp:good_view" good.pk %}'>Show the good🔓</a>
+            {% if perms.webapp.change_good %}
+                <a href='{% url "webapp:good_update" good.pk %}'>Edit the good🌯</a>
+            {% endif %}
+            {% if perms.webapp.delete_good %}
+                <a href='{% url "webapp:good_delete" good.pk %}'>Delete the good✂️</a>
+            {% endif %}
+            <a href="{% url 'webapp:good_add_to_cart' good.pk%}">Add to basket</a>
         </p>
     {% endfor %}
 

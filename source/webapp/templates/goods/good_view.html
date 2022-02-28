@@ -1,19 +1,25 @@
 {% extends 'base.html' %}
 {% block title %}good {{good.pk}}{% endblock %}
 {% block nav %}
-    <li class="nav-item">
-        <a class="nav-link" href="{% url 'good_add' %}">Add</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="{% url 'good_update' good.pk %}">Edit</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="{% url 'good_delete' good.pk %}">Delete</a>
-    </li>
+    {% if perms.webapp.add_good %}
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'webapp:good_create' %}">Add</a>
+        </li>
+    {% endif %}
+    {% if perms.webapp.change_good %}
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'webapp:good_update' good.pk %}">Edit</a>
+        </li>
+    {% endif %}
+    {% if perms.webapp.delete_good %}
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'webapp:good_delete' good.pk %}">Delete</a>
+        </li>
+    {% endif %}
 {% endblock %}
 {% block content %}
-    <h1>{{ good.description }}</h1>
-    <h2>{{ good.detailed_description }}</h2>
+    <h1>Name of good: {{ good.description }}</h1>
+    <h2>Description of good: {{ good.detailed_description }}</h2>
 <h3>Category</h3>
     {{ good.category }}
 <h3>Remainder</h3>

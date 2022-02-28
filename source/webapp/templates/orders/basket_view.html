@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h3>Basket</h3>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Qty</th>
+            <th scope="col">Price</th>
+            <th scope="col">Total</th>
+            <th></th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for c in cart %}
+            <tr>
+                <td>{{ c.good.description }}</td>
+                <td>{{ c.qty }}</td>
+                <td>{{ c.good.price }}</td>
+                <td>{{ c.total }}</td>
+                <td><a href="{% url 'webapp:cart_delete_one_view' c.pk %}">Delete</a></td>
+                <td><a href="{% url 'webapp:cart_delete_view' c.pk %}">Delete all</a></td>
+            </tr>
+
+        {% empty %}
+            <tr>
+                <td><h3>Basket is free</h3></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <h5>Total price: {{ total }}</h5>
+
+    <form action="{% url 'webapp:order_create_view' %}" method="post">
+        {% include "partial/form.html" with button_text="Order" %}
+    </form>
+
+
+{% endblock %}

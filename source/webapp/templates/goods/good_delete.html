@@ -7,7 +7,7 @@
         {% include 'partial/form.html' with button_text="Delete" %}
     </form>
 </br>
-    <form method="GET" action="{% url 'good_view' good.pk %}" target="_blank">
+    <form method="GET" action="{% url 'webapp:good_view' good.pk %}" target="_blank">
    <button>No</button>
   </form>
 {% endblock %}

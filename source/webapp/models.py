@@ -1,6 +1,6 @@
 from django.db import models
-from django.urls import reverse
 from django.core.validators import MinValueValidator, MaxValueValidator
+from django.db.models import F, ExpressionWrapper as E, Sum
 
 # Create your models here.
 
@@ -15,8 +15,8 @@ class Good(models.Model):
     remainder = models.PositiveIntegerField(validators=[MinValueValidator(0), MaxValueValidator(100)])
     price = models.DecimalField(max_digits=7, decimal_places=2)
 
-    def get_absolute_url(self):
-        return reverse('good_view', kwargs={'pk': self.pk})
+    # def get_absolute_url(self):
+    #     return reverse('good_view', kwargs={'pk': self.pk})
 
     def __str__(self):
         return f"{self.pk}. {self.description}: {self.category}"
@@ -39,57 +39,58 @@ class Category(models.Model):
         verbose_name_plural = 'categories'
 
 
-class Basket(models.Model):
-    good = models.ForeignKey("webapp.Good", on_delete=models.CASCADE,
-                                 related_name="good",
-                                 verbose_name="Good",
-                                 )
-    remainder = models.PositiveIntegerField( default=1, validators=[MinValueValidator(1)])
-
-    def get_basket_total(cls, ids=None):
-        basket_goods = cls.get_with_total()
-        if ids is not None:
-            basket_goods = basket_goods.filter(pk__in=ids)
-        total = basket_goods.aggregate(basket_total=Sum('total'))
-        return total['basket_goods']
+class Cart(models.Model):
+    good = models.ForeignKey('webapp.Good', on_delete=models.CASCADE,
+                                verbose_name='Good', related_name='in_cart')
+    qty = models.PositiveIntegerField(verbose_name='Quantity', default=1)
 
     def __str__(self):
-        return f"{self.remainder} * {self.good}"
+        return f'{self.good.description} - {self.qty}'
+
+    @classmethod
+    def get_with_total(cls):
+        return cls.objects.annotate(total=E(F("qty") * F("good__price"), output_field=models.DecimalField()))
+
+    @classmethod
+    def get_with_product(cls):
+        return cls.get_with_total().select_related("good")
+
+    @classmethod
+    def get_cart_total(cls):
+        total = cls.get_with_total().aggregate(cart_total=Sum("total"))
+        return total['cart_total']
 
     class Meta:
-        db_table = 'Basket'
-        verbose_name = 'basket'
-        verbose_name_plural = 'baskets'
+        verbose_name = 'Good in order'
+        verbose_name_plural = 'Goods in order'
 
 
 class Order(models.Model):
-    name = models.CharField(max_length=10, verbose_name='Name')
-    phone = models.CharField(max_length=10, verbose_name='Phone')
-    address = models.CharField(max_length=50, verbose_name='Address')
+    name = models.CharField(max_length=50, verbose_name='Name')
+    phone = models.CharField(max_length=30, verbose_name='Phone')
+    address = models.CharField(max_length=100, verbose_name='Address')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Created at')
-    goods = models.ManyToManyField('webapp.Good', related_name='orders', verbose_name='Goods',
+    products = models.ManyToManyField('webapp.Good', related_name='orders', verbose_name='Orders',
                                       through='webapp.OrderGood', through_fields=['order', 'good'])
 
     def __str__(self):
-        return f'{self.name} : {self.phone}'
+        return f'{self.name} - {self.phone}'
 
     class Meta:
-        db_table = 'Order'
-        verbose_name = 'order'
-        verbose_name_plural = 'orders'
+        verbose_name = 'Order'
+        verbose_name_plural = 'Orders'
 
 
 class OrderGood(models.Model):
     good = models.ForeignKey('webapp.Good', on_delete=models.CASCADE,
-                                verbose_name='Good', related_name='order_goods')
+                                verbose_name='order', related_name='order_goods')
     order = models.ForeignKey('webapp.Order', on_delete=models.CASCADE,
-                              verbose_name='Order', related_name='order_goods')
-    remainder = models.PositiveIntegerField(verbose_name='Quantity')
+                              verbose_name='order', related_name='order_goods')
+    qty = models.PositiveIntegerField(verbose_name='Quantity')
 
     def __str__(self):
         return f'{self.good.description} - {self.order.name}'
 
     class Meta:
-        db_table = 'OrderGood'
         verbose_name = 'Good in order'
         verbose_name_plural = 'Goods in order'

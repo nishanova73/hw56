@@ -1,30 +1,26 @@
 from django import forms
-from django.core.exceptions import ValidationError
-from django.forms import widgets
-from webapp.models import Good, Category, Basket, Order, OrderGood
+from webapp.models import Good, Cart, Order
+
+
+class SearchForm(forms.Form):
+    search = forms.CharField(max_length=100, required=False, label="Search")
 
 
 class GoodForm(forms.ModelForm):
     class Meta:
         model = Good
         exclude = []
-        widgets = {
-            'detailed_description': forms.Textarea(attrs={'rows': 5, 'cols': 50}),
-        }
 
-    def clean_description(self):
-        if len(self.cleaned_data.get('description')) < 20:
-            raise ValidationError(f"The description field must be more than 20 symbols!")
-        return self.cleaned_data.get('description')
-
-    def clean_detailed_description(self):
-        if len(self.cleaned_data.get('detailed_description')) > 2000:
-            raise ValidationError(f"The detailed description field must be less than 2000 symbols!")
-        return self.cleaned_data.get('detailed_description')
+class CartForm(forms.ModelForm):
+    class Meta:
+        model = Cart
+        fields = ["qty"]
 
 
-class SearchForm(forms.Form):
-    search = forms.CharField(max_length=30, required=False, label="Search")
+class OrderForm(forms.ModelForm):
+    class Meta:
+        model = Order
+        exclude = ["goods"]
 
 
 class GoodDeleteForm(forms.ModelForm):
@@ -38,14 +34,3 @@ class GoodDeleteForm(forms.ModelForm):
             print('error')
             raise ValidationError("Description isn't valid")
         return self.cleaned_data.get("description")
-
-
-class BasketAddForm(forms.ModelForm):
-    class Meta:
-        model = Basket
-        fields = ['remainder']
-
-class OrderForm(forms.ModelForm):
-    class Meta:
-        model = Order
-        exclude = ['goods']

@@ -15,9 +15,6 @@ class Good(models.Model):
     remainder = models.PositiveIntegerField(validators=[MinValueValidator(0), MaxValueValidator(100)])
     price = models.DecimalField(max_digits=7, decimal_places=2)
 
-    # def get_absolute_url(self):
-    #     return reverse('good_view', kwargs={'pk': self.pk})
-
     def __str__(self):
         return f"{self.pk}. {self.description}: {self.category}"
 
@@ -52,7 +49,7 @@ class Cart(models.Model):
         return cls.objects.annotate(total=E(F("qty") * F("good__price"), output_field=models.DecimalField()))
 
     @classmethod
-    def get_with_product(cls):
+    def get_with_good(cls):
         return cls.get_with_total().select_related("good")
 
     @classmethod

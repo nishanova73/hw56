@@ -1,0 +1,66 @@
+[
+{
+  "model": "auth.group",
+  "pk": 1,
+  "fields": {
+    "name": "moderator",
+    "permissions": [
+      [
+        "add_good",
+        "webapp",
+        "good"
+      ],
+      [
+        "change_good",
+        "webapp",
+        "good"
+      ],
+      [
+        "delete_good",
+        "webapp",
+        "good"
+      ]
+    ]
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 1,
+  "fields": {
+    "password": "pbkdf2_sha256$320000$e4f9L8aYLCxJdtf0AgqOvR$sQabc4ai6xNSEvDQu1KxsiZKKO4lwBJc6SHTjgbB4+A=",
+    "last_login": "2022-02-07T07:00:13Z",
+    "is_superuser": false,
+    "username": "chika",
+    "first_name": "",
+    "last_name": "",
+    "email": "nish@mail.ru",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2022-02-07T07:00:08Z",
+    "groups": [
+      [
+        "moderator"
+      ]
+    ],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 2,
+  "fields": {
+    "password": "pbkdf2_sha256$320000$tEd1clU6O7QCePKGWzw18g$cHH10vCiBifiUY5WfhkYw0s7rSiU/zhI4YF7Ba2sOM8=",
+    "last_login": "2022-02-28T08:34:27.203Z",
+    "is_superuser": true,
+    "username": "man",
+    "first_name": "",
+    "last_name": "",
+    "email": "man@mail.ru",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2022-02-28T07:46:35.522Z",
+    "groups": [],
+    "user_permissions": []
+  }
+}
+]

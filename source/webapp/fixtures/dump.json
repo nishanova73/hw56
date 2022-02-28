@@ -112,6 +112,14 @@
     }
 },
 {
+    "model": "webapp.cart",
+    "pk": 1,
+    "fields": {
+        "good": 3,
+        "qty": 6
+    }
+},
+{
     "model": "webapp.order",
     "pk": 1,
     "fields": {
@@ -127,7 +135,7 @@
     "fields": {
         "good": 4,
         "order": 1,
-        "remainder": 3
+        "qty": 3
     }
 }
 ]

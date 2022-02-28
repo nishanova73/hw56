@@ -1,4 +1,5 @@
 from django.db.models import Q
+from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.http import HttpResponseNotFound
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse, reverse_lazy
@@ -20,11 +21,14 @@ class IndexView(ListView):
         return super().get_queryset().filter(remainder__gt=0)
 
 
-class CreateGoodView(CreateView):
+class CreateGoodView(PermissionRequiredMixin, CreateView):
     model = Good
     form_class = GoodForm
     template_name = "goods/good_create.html"
+    permission_required = 'webapp.add_good'
 
+    def get_success_url(self):
+        return reverse('webapp:good_view', kwargs={'pk': self.object.pk})
 
 class GoodView(DetailView):
     template_name = 'goods/good_view.html'
@@ -36,16 +40,18 @@ class GoodView(DetailView):
         context['category'] = category
         return context
 
-class GoodUpdateView(UpdateView):
+class GoodUpdateView(PermissionRequiredMixin, UpdateView):
     form_class = GoodForm
     template_name = "goods/good_update.html"
     model = Good
+    permission_required = 'webapp.change_good'
 
 
-class GoodDeleteView(DeleteView):
+class GoodDeleteView(PermissionRequiredMixin, DeleteView):
     model = Good
     template_name = "goods/good_delete.html"
     success_url = reverse_lazy('main_page')
+    permission_required = 'webapp.delete_good'
 
     def dispatch(self, request, *args, **kwargs):
         if self.request.method == "POST":

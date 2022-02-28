@@ -8,7 +8,7 @@ User = get_user_model()
 
 
 class ProfileInline(admin.StackedInline):
-    fields = ("link", "about_field", "avatar",)
+    fields = ("user", "birth_date", "avatar",)
     model = Profile
 
 

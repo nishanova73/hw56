@@ -5,6 +5,7 @@
 {% block content %}
 <h1>Create Good</h1>
 
+{% url "webapp:good_create" as action_url %}
 <form method="post">
     {% include "partial/form.html" with button_text="Create" %}
 </form>
